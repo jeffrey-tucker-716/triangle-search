@@ -3,3 +3,12 @@
 ################################################################################
 
 /TriangleHuntWebapp/bin/Debug/netcoreapp3.0
+/TriangleHunt/bin/Debug/netstandard2.0
+/TriangleHunt.Tests/bin/Debug/netcoreapp3.0
+/TriangleHunt.Tests/obj
+/TriangleHunt/obj
+/TriangleHuntWebapp/obj/Debug/netcoreapp3.0
+/TriangleHuntWebapp/obj/Release/netcoreapp3.0
+/TriangleHuntWebapp/obj
+/.vs/Cherwell/v16/.suo
+/.vs
