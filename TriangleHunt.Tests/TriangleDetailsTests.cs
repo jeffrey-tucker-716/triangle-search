@@ -28,7 +28,7 @@ namespace TriangleHunt.Tests
         }
 
         [Test]
-        public void WhenGiveA0KeyThenReturnsNullTriangleDetails()
+        public void WhenGiveA0KeyThenReturnsInvalidTriangleDetails()
         {
             var triangleDetails = triangleResolver.ResolveTriangleKey("A0");
             Assert.IsFalse(triangleDetails.IsValid);
@@ -48,6 +48,31 @@ namespace TriangleHunt.Tests
             Assert.IsTrue(triangleDetails.Vertex3.X == 60 && triangleDetails.Vertex3.Y == 60);
         }
 
+        [Test]
+        public void WhenGivenListOfValidAndInvalidKeysThenReturnsSetOfValidKeys()
+        {
+            string triangleKeys = "a1,B2,G15,F11";
+            var vettedKeys = triangleResolver.ParseTriangleKeys(triangleKeys);
+            Assert.IsTrue(vettedKeys != null && vettedKeys.Length == 3);
+            // only return the valid ones!
+            foreach(var item in vettedKeys)
+            {
+                Console.WriteLine($"{item.ToUpper()}");
+            }
+        }
+
+        [Test]
+        public void WhenGivenListOfValidAndInvalidKeysThenReturnsSetOfValidTriangleDetails()
+        {
+            string triangleKeys = "a1,B2,G15,F11";
+            var triangleDetailsArray = triangleResolver.ResolveTriangleKeys(triangleKeys);
+            Assert.IsTrue(triangleDetailsArray != null && triangleDetailsArray.Length == 3);
+            // only return the valid ones!
+            foreach (var item in triangleDetailsArray)
+            {
+                Console.WriteLine($"{item.TriangleKey.ToUpper()} {item.Vertex1} {item.Vertex2} {item.Vertex3}");
+            }
+        }
 
         [Test]
         public void WhenGivenD5KeyThenReturnsLastTriangleDetails()
