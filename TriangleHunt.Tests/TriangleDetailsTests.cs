@@ -47,20 +47,7 @@ namespace TriangleHunt.Tests
             Assert.IsTrue(triangleDetails.Vertex2.X == 50 && triangleDetails.Vertex2.Y == 50);
             Assert.IsTrue(triangleDetails.Vertex3.X == 60 && triangleDetails.Vertex3.Y == 60);
         }
-
-        [Test]
-        public void WhenGivenListOfValidAndInvalidKeysThenReturnsSetOfValidKeys()
-        {
-            string triangleKeys = "a1,B2,G15,F11";
-            var vettedKeys = triangleResolver.ParseTriangleKeys(triangleKeys);
-            Assert.IsTrue(vettedKeys != null && vettedKeys.Length == 3);
-            // only return the valid ones!
-            foreach(var item in vettedKeys)
-            {
-                Console.WriteLine($"{item.ToUpper()}");
-            }
-        }
-
+               
         [Test]
         public void WhenGivenListOfValidAndInvalidKeysThenReturnsSetOfValidTriangleDetails()
         {
@@ -75,17 +62,17 @@ namespace TriangleHunt.Tests
         }
 
         [Test]
-        public void WhenGivenD5KeyThenReturnsLastTriangleDetails()
+        public void WhenGivenD5KeyThenReturnsMiddleTriangleDetails()
         {
 
             var triangleDetails = triangleResolver.ResolveTriangleKey("D5");
             Assert.IsTrue(triangleDetails.IsValid);
             Assert.IsTrue(triangleDetails.TriangleKey == "D5");
             Console.WriteLine($"{triangleDetails.TriangleKey} {triangleDetails.Vertex1} {triangleDetails.Vertex2} {triangleDetails.Vertex3}");
-
+            // D5 {X=20,Y=40} {X=20,Y=30} {X=30,Y=40}
             Assert.IsTrue(triangleDetails.Vertex1.X == 20 && triangleDetails.Vertex1.Y == 40);
-            //Assert.IsTrue(triangleDetails.Vertex2.X == 0 && triangleDetails.Vertex2.Y == 0);
-            //Assert.IsTrue(triangleDetails.Vertex3.X == 10 && triangleDetails.Vertex3.Y == 10);
+            Assert.IsTrue(triangleDetails.Vertex2.X == 20 && triangleDetails.Vertex2.Y == 30);
+            Assert.IsTrue(triangleDetails.Vertex3.X == 30 && triangleDetails.Vertex3.Y == 40);
         }
     }
 }

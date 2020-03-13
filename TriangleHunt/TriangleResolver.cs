@@ -12,22 +12,11 @@ namespace TriangleHunt
         const string rowMatchPattern = @"[A-Fa-f]";
         const string columnMatchPattern = @"([1-9]\b|1[0-2]){1}";
 
-        public string[] ParseTriangleKeys(string delimitedKeys)
-        {
-            List<string> listKeys = new List<string>();
-            MatchCollection matches = Regex.Matches(delimitedKeys, keyMatchPattern);
-            foreach (Match m in matches)
-            {
-                string key = m.ToString();
-                listKeys.Add(key);
-            }
-            return listKeys.ToArray();
-        }
         public TriangleDetails[] ResolveTriangleKeys(string delimitedKeys)
         {
 
             List<TriangleDetails> listTriangleDetails = new List<TriangleDetails>();
-            var keys = ParseTriangleKeys(delimitedKeys);
+            var keys = parseTriangleKeys(delimitedKeys);
             foreach(var key in keys)
             {
                 var localDetails = ResolveTriangleKey(key);
@@ -78,7 +67,20 @@ namespace TriangleHunt
             return triangleDetails;
         }
 
-        void calculateTriangleVertexes(TriangleDetails triangleDetails, bool isUpperRightTriangle, string rowName, int column)
+
+        private string[] parseTriangleKeys(string delimitedKeys)
+        {
+            List<string> listKeys = new List<string>();
+            MatchCollection matches = Regex.Matches(delimitedKeys, keyMatchPattern);
+            foreach (Match m in matches)
+            {
+                string key = m.ToString();
+                listKeys.Add(key);
+            }
+            return listKeys.ToArray();
+        }
+
+        private void calculateTriangleVertexes(TriangleDetails triangleDetails, bool isUpperRightTriangle, string rowName, int column)
         {
             
             try
@@ -173,6 +175,7 @@ namespace TriangleHunt
             catch(Exception e)
             {
                 // TODO: log out the exception to Azure telemetry or whatever
+                Console.WriteLine($"Exception is {e}");
             }
         }
     }
