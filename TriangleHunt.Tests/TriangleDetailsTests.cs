@@ -103,5 +103,28 @@ namespace TriangleHunt.Tests
             Assert.IsFalse(success);
             Assert.IsTrue(string.IsNullOrEmpty(triangleDetailsSansKey.TriangleKey));
         }
+
+        [Test]
+        public void WhenGivenInvalidCoordinatesOutsideGridThenReturnsNoTriangleKey()
+        {
+            var triangleDetailsSansKey = new TriangleDetails()
+            {
+                Vertex1 = new System.Drawing.Point(71, 0),
+                Vertex2 = new System.Drawing.Point(0, 0),
+                Vertex3 = new System.Drawing.Point(11, 81)
+            };
+            bool success = triangleResolver.GetTriangleKeyFromVertices(triangleDetailsSansKey);
+            Assert.IsFalse(success);
+            Assert.IsTrue(string.IsNullOrEmpty(triangleDetailsSansKey.TriangleKey));
+        }
+
+        [Test]
+        public void WhenGivenMissingCoordinatesThenReturnsNoTriangleKey()
+        {
+            var triangleDetailsSansKey = new TriangleDetails();
+            bool success = triangleResolver.GetTriangleKeyFromVertices(triangleDetailsSansKey);
+            Assert.IsFalse(success);
+            Assert.IsTrue(string.IsNullOrEmpty(triangleDetailsSansKey.TriangleKey));
+        }
     }
 }
