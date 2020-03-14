@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using TriangleHunt.Models;
 
 namespace TriangleHunt.Tests
 {
@@ -64,7 +65,6 @@ namespace TriangleHunt.Tests
         [Test]
         public void WhenGivenD5KeyThenReturnsMiddleTriangleDetails()
         {
-
             var triangleDetails = triangleResolver.ResolveTriangleKey("D5");
             Assert.IsTrue(triangleDetails.IsValid);
             Assert.IsTrue(triangleDetails.TriangleKey == "D5");
@@ -73,6 +73,35 @@ namespace TriangleHunt.Tests
             Assert.IsTrue(triangleDetails.Vertex1.X == 20 && triangleDetails.Vertex1.Y == 40);
             Assert.IsTrue(triangleDetails.Vertex2.X == 20 && triangleDetails.Vertex2.Y == 30);
             Assert.IsTrue(triangleDetails.Vertex3.X == 30 && triangleDetails.Vertex3.Y == 40);
+        }
+
+        [Test]
+        public void WhenGivenValidCoordinatesThenReturnsA2TriangleKey()
+        {
+            // {X=10,Y=0} {X=0,Y=0} {X=10,Y=10}
+            var triangleDetailsSansKey = new TriangleDetails()
+            {
+                Vertex1 = new System.Drawing.Point(10, 0),
+                Vertex2 = new System.Drawing.Point(0, 0),
+                Vertex3 = new System.Drawing.Point(10, 10)
+            };
+            bool success = triangleResolver.GetTriangleKeyFromVertices(triangleDetailsSansKey);
+            Assert.IsTrue(success);
+            Assert.AreEqual("A2", triangleDetailsSansKey.TriangleKey.ToUpper());
+        }
+
+        [Test]
+        public void WhenGivenInvalidCoordinatesThenReturnsNoTriangleKey()
+        {
+            var triangleDetailsSansKey = new TriangleDetails()
+            {
+                Vertex1 = new System.Drawing.Point(11, 0),
+                Vertex2 = new System.Drawing.Point(0, 0),
+                Vertex3 = new System.Drawing.Point(11, 11)
+            };
+            bool success = triangleResolver.GetTriangleKeyFromVertices(triangleDetailsSansKey);
+            Assert.IsFalse(success);
+            Assert.IsTrue(string.IsNullOrEmpty(triangleDetailsSansKey.TriangleKey));
         }
     }
 }

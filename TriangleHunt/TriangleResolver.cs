@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Drawing;
@@ -11,6 +12,8 @@ namespace TriangleHunt
         const string keyMatchPattern = @"[A-Fa-f]([1-9]\b|1[0-2]){1}\b";
         const string rowMatchPattern = @"[A-Fa-f]";
         const string columnMatchPattern = @"([1-9]\b|1[0-2]){1}";
+        const double MinDistanceBetweenPoints = 10.00d;
+        readonly double MaxDistanceBetweenPoints = Math.Round(Math.Sqrt((Math.Pow(10, 2) + Math.Pow(10, 2))), 2);
 
         public TriangleDetails[] ResolveTriangleKeys(string delimitedKeys)
         {
@@ -31,9 +34,246 @@ namespace TriangleHunt
             {
                 triangleDetails = calculateVertexCoordinates(key);
             }
-
-
             return triangleDetails;
+        }
+
+        public bool GetTriangleKeyFromVertices(TriangleDetails triangleDetails)
+        {
+            bool foundTriangleKey = false;
+            if (!areCoordinatesValid(triangleDetails))
+            {
+                return foundTriangleKey;    // false
+            }
+
+            // or too far apart
+            Point pointOppositeHypotenuse = Point.Empty;
+            if (!doVerticesMeet(triangleDetails, ref pointOppositeHypotenuse))
+            {
+                return foundTriangleKey;    // false
+            }
+            // we should know which point is opposite to determine if it is the upper or lower.
+            // figure out the left, right, top, bottom
+            var yCoordinates = new List<int>()
+            {
+                triangleDetails.Vertex1.Y,
+                triangleDetails.Vertex2.Y,
+                triangleDetails.Vertex3.Y
+            };
+            var xCoordinates = new List<int>()
+            {
+                triangleDetails.Vertex1.X,
+                triangleDetails.Vertex2.X,
+                triangleDetails.Vertex3.X
+            };
+
+            int top = yCoordinates.ToArray().Min();
+            int bottom = yCoordinates.ToArray().Max();
+            int left = xCoordinates.ToArray().Min();
+            int right = xCoordinates.ToArray().Max();
+            string triangleKey = string.Empty;
+            switch (bottom)
+            {
+                case 10:
+                    triangleKey = "A";
+                    break;
+                case 20:
+                    triangleKey = "B";
+                    break;
+                case 30:
+                    triangleKey = "C";
+                    break;
+                case 40:
+                    triangleKey = "D";
+                    break;
+                case 50:
+                    triangleKey = "E";
+                    break;
+                case 60:
+                    triangleKey = "F";
+                    break;
+                default:
+                    throw new ApplicationException($"Could not determine the row from {bottom}");
+            }
+
+            if (pointOppositeHypotenuse.Y  == top && pointOppositeHypotenuse.X == right)
+            {
+                // this is the even one
+                switch (right)
+                {
+                    case 10:
+                        triangleKey += "2";
+                        break;
+                    case 20:
+                        triangleKey += "4";
+                        break;
+                    case 30:
+                        triangleKey += "6";
+                        break;
+                    case 40:
+                        triangleKey += "8";
+                        break;
+                    case 50:
+                        triangleKey += "10";
+                        break;
+                    case 60:
+                        triangleKey += "12";
+                        break;
+                }
+            }
+            else if (pointOppositeHypotenuse.Y == bottom && pointOppositeHypotenuse.X == left)
+            {
+                switch (left)
+                {
+                    case 0:
+                        triangleKey += "1";
+                        break;
+                    case 10:
+                        triangleKey += "3";
+                        break;
+                    case 20:
+                        triangleKey += "5";
+                        break;
+                    case 30:
+                        triangleKey += "7";
+                        break;
+                    case 40:
+                        triangleKey += "9";
+                        break;
+                    case 50:
+                        triangleKey += "11";
+                        break;
+                }
+            }
+            triangleDetails.TriangleKey = triangleKey;
+            foundTriangleKey = true;
+
+            return foundTriangleKey;
+        }
+
+        private bool areCoordinatesValid(TriangleDetails triangleDetails)
+        {
+            // checks if all points are filled in.
+            if (!areAllVerticesMissing(triangleDetails))
+            {
+                return false;
+            }
+
+            // if any of the points are out of range of 60x60 pixel grid, then false
+            if (!verticesInGrid(triangleDetails))
+            {
+                return false;
+            }
+
+            // if any of the points are not divisible by 10, 
+            if (!coordinatesDivisibleBy10(triangleDetails))
+            {
+                return false;
+            }
+
+
+            return true;
+
+        }
+
+        private bool areAllVerticesMissing(TriangleDetails triangleDetails)
+        {
+            if (triangleDetails.Vertex1 == Point.Empty && triangleDetails.Vertex2 == Point.Empty && triangleDetails.Vertex3 == Point.Empty)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool coordinatesDivisibleBy10(TriangleDetails triangleDetails)
+        {
+            if (triangleDetails.Vertex1.X % 10 != 0 || triangleDetails.Vertex1.Y % 10 != 0)
+            {
+                return false;
+            }
+            if (triangleDetails.Vertex2.X % 10 != 0 || triangleDetails.Vertex2.Y % 10 != 0)
+            {
+                return false;
+            }
+            if (triangleDetails.Vertex3.X % 10 != 0 || triangleDetails.Vertex3.Y % 10 != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool verticesInGrid(TriangleDetails triangleDetails)
+        {
+            // if any of the points are out of range of 60x60 pixel grid, then false
+            if (!pointInRange(triangleDetails.Vertex1, 60, 60))
+            {
+                return false;
+            }
+            if (!pointInRange(triangleDetails.Vertex2, 60, 60))
+            {
+                return false;
+            }
+            if (!pointInRange(triangleDetails.Vertex3, 60, 60))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool doVerticesMeet(TriangleDetails triangleDetails, ref Point pointOppositeHypotenuse)
+        {
+            double distance1 = Math.Round(Math.Sqrt(Math.Pow((triangleDetails.Vertex2.X - triangleDetails.Vertex1.X), 2) +
+                Math.Pow((triangleDetails.Vertex2.Y - triangleDetails.Vertex1.Y), 2)), 2);
+            double distance2 = Math.Round(Math.Sqrt(Math.Pow((triangleDetails.Vertex3.X - triangleDetails.Vertex1.X), 2) +
+                Math.Pow((triangleDetails.Vertex3.Y - triangleDetails.Vertex1.Y), 2)), 2);
+            double distance3 = Math.Round(Math.Sqrt(Math.Pow((triangleDetails.Vertex3.X - triangleDetails.Vertex2.X), 2) +
+                Math.Pow((triangleDetails.Vertex3.Y - triangleDetails.Vertex2.Y), 2)), 2);
+
+            // at least one distance == MaxDistanceBetweenPoints, and 2 distances equal MinDistanceBetweenPoints
+            bool twoEquidistantLegs = false;
+            bool hypotenuseExists = false;
+            if (distance1 == MinDistanceBetweenPoints && distance2 == MinDistanceBetweenPoints)
+            {
+                twoEquidistantLegs = true;
+            }
+            else if (distance1 == MinDistanceBetweenPoints && distance3 == MinDistanceBetweenPoints)
+            {
+                twoEquidistantLegs = true;
+            }
+            else if (distance2 == MinDistanceBetweenPoints && distance3 == MinDistanceBetweenPoints)
+            {
+                twoEquidistantLegs = true;
+            }
+            pointOppositeHypotenuse = Point.Empty;
+            if (distance1 == MaxDistanceBetweenPoints)
+            {
+                hypotenuseExists = true;
+                pointOppositeHypotenuse = triangleDetails.Vertex3;
+            }
+            else if (distance2 == MaxDistanceBetweenPoints)
+            {
+                hypotenuseExists = true;
+                pointOppositeHypotenuse = triangleDetails.Vertex2;
+            }
+            else if (distance3 == MaxDistanceBetweenPoints)
+            {
+                hypotenuseExists = true;
+                pointOppositeHypotenuse = triangleDetails.Vertex1;
+            }
+                       
+            if (hypotenuseExists && twoEquidistantLegs)
+                return true;
+
+            return false;
+        }
+
+        private bool pointInRange(Point vertex, int maxX, int maxY)
+        {
+            // min is always 0.
+            if (vertex.X > maxX || vertex.X < 0)
+                return false;
+            if (vertex.Y > maxY || vertex.Y < 0)
+                return false;
+            return true;
         }
 
         private bool validateKey(string key)
@@ -82,7 +322,6 @@ namespace TriangleHunt
 
         private void calculateTriangleVertexes(TriangleDetails triangleDetails, bool isUpperRightTriangle, string rowName, int column)
         {
-            
             try
             {
                 // points ON the hypotenuse (top-left and bottom-right) are the same for both triangles
