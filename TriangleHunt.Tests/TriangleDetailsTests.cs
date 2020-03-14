@@ -126,5 +126,19 @@ namespace TriangleHunt.Tests
             Assert.IsFalse(success);
             Assert.IsTrue(string.IsNullOrEmpty(triangleDetailsSansKey.TriangleKey));
         }
+
+        [Test]
+        public void WhenGivenTooBigTriangleCoordinatesThenReturnsNoTriangleKey()
+        {
+            var triangleDetailsSansKey = new TriangleDetails()
+            {   // twice the size of accepted triangle
+                Vertex1 = new System.Drawing.Point(0, 0),
+                Vertex2 = new System.Drawing.Point(20, 0),
+                Vertex3 = new System.Drawing.Point(20, 20)
+            };
+            bool success = triangleResolver.GetTriangleKeyFromVertices(triangleDetailsSansKey);
+            Assert.IsFalse(success);
+            Assert.IsTrue(string.IsNullOrEmpty(triangleDetailsSansKey.TriangleKey));
+        }
     }
 }
