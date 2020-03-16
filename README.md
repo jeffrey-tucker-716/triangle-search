@@ -35,7 +35,7 @@ The DTO for the project is a TriangleDetails class.  I leveraged the Point class
         }
 
     }
-}
+
 ## Routes for Endpoint
 I wanted to adhere to RESTful architecture best practices so I created a resource of triangles.  TrianglesController
 is an API controller (derived from ControllerBase)
