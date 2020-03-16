@@ -15,7 +15,7 @@ using System.Drawing;
 namespace TriangleSearchWebapp.Controllers
 {
     [Route("api/[controller]")]
-    public class TrianglesController : Controller
+    public class TrianglesController : ControllerBase
     {
         readonly ITriangleResolver _triangleResolver = null;
 
@@ -24,10 +24,22 @@ namespace TriangleSearchWebapp.Controllers
             _triangleResolver = triangleResolver;
         }
         // GET: api/<controller>
-        [HttpGet]
+        [HttpGet("/triangles")]
         public IEnumerable<TriangleDetails> Get()
         {
             return _triangleResolver.GetAll();
+        }
+
+        // GET api/<controller>/A1
+        [HttpGet("/triangles/{id}")]
+        public TriangleDetails Get(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return null;
+            }
+            var triangleDetails = _triangleResolver.GetOne(id);
+            return triangleDetails;
         }
 
         /// <summary>
@@ -41,7 +53,7 @@ namespace TriangleSearchWebapp.Controllers
         /// <param name="v2"></param>
         /// <param name="v3"></param>
         /// <returns>TriangleDetails with key filled in</returns>
-        [HttpGet]
+        [HttpGet("/triangles/search")]
         public TriangleDetails Get(string v1, string v2, string v3)
         {
             TriangleDetails triangleDetails = new TriangleDetails();
@@ -105,17 +117,7 @@ namespace TriangleSearchWebapp.Controllers
             return (str ?? "").Split(',').Select<string, int>(int.Parse);
         }
 
-        // GET api/<controller>/A1
-        [HttpGet("{id}")]
-        public TriangleDetails Get(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
-            var triangleDetails = _triangleResolver.GetOne(id);
-            return triangleDetails;
-        }
+      
 
         //// POST api/<controller>
         //[HttpPost]
