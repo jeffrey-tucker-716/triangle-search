@@ -12,3 +12,6 @@
 /TriangleHuntWebapp/obj
 /.vs/Cherwell/v16/.suo
 /.vs
+/TriangleSearchWebapp.Tests/bin/Debug/netcoreapp3.1
+/TriangleSearchWebapp.Tests/obj/Debug/netcoreapp3.1
+/TriangleSearchWebapp.Tests/obj
