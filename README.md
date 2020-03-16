@@ -11,7 +11,7 @@ you can produce any of the triangles in the layout shown in CodingQuestion_2020_
 
 Given the vertex coordinates, calculate the row and column for the triangle.
 
-Design
+## Design of Data Transfer Object
 
 The DTO for the project is a TriangleDetails class.  I leveraged the Point class in System.Drawing namespace just in case it would help.
 
@@ -36,7 +36,7 @@ The DTO for the project is a TriangleDetails class.  I leveraged the Point class
 
     }
 }
-# Routes for Endpoint
+## Routes for Endpoint
 I wanted to adhere to RESTful architecture best practices so I created a resource of triangles.  TrianglesController
 is an API controller (derived from ControllerBase)
 
@@ -64,7 +64,7 @@ All output is JSON.
 
 Sample queries and output are found in TestQueriesToEndpoint.txt file
 
-# The Service Layer
+## The Service Layer
 
 TriangleHunt is a simple class library containing the ITriangleResolver and TriangleResolver.  
 
@@ -72,7 +72,7 @@ To speed up the searches, I've created a singleton TriangleCache to look up any 
 I could do some Dependency Injection of the TriangleCache, but you get the idea.  Even Michelangelo left David's head unfinished where
 no one could see.
 
-# Unit Testing
+## Unit Testing
 
 TriangleHunt.Tests is the NUnit testing project for the services layer.
 
