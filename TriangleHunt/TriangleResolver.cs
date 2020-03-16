@@ -4,17 +4,46 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Drawing;
 using TriangleHunt.Models;
+using TriangleHunt.Interfaces;
 
 namespace TriangleHunt
 {
-    public class TriangleResolver
+    public class TriangleResolver : ITriangleResolver
     {
         const string keyMatchPattern = @"[A-Fa-f]([1-9]\b|1[0-2]){1}\b";
         const string rowMatchPattern = @"[A-Fa-f]";
         const string columnMatchPattern = @"([1-9]\b|1[0-2]){1}";
         const double MinDistanceBetweenPoints = 10.00d;
         readonly double MaxDistanceBetweenPoints = Math.Round(Math.Sqrt((Math.Pow(10, 2) + Math.Pow(10, 2))), 2);
+       
 
+        public TriangleDetails[] GetAll()
+        {
+            var allTriangleDetails= TriangleCache.Instance.AllTriangleDetails().ToList();
+            return allTriangleDetails.ToArray();
+        }
+
+        public TriangleDetails GetOne(string key)
+        {
+            var details = TriangleCache.Instance.Lookup(key.ToUpper());
+            if (details == null)
+            {
+                details = ResolveTriangleKey(key.ToUpper());
+            }
+            return details;
+        }
+
+        public TriangleDetails ResolveTriangleKey(string key)
+        {
+            var triangleDetails = new TriangleDetails();
+            if (validateKey(key))
+            {
+                triangleDetails = calculateVertexCoordinates(key);
+            }
+            return triangleDetails;
+        }
+
+#if NEEDED
         public TriangleDetails[] ResolveTriangleKeys(string delimitedKeys)
         {
 
@@ -27,15 +56,7 @@ namespace TriangleHunt
             }
             return listTriangleDetails.ToArray();
         }
-        public TriangleDetails ResolveTriangleKey(string key)
-        {
-            var triangleDetails = new TriangleDetails();
-            if (validateKey(key))
-            {
-                triangleDetails = calculateVertexCoordinates(key);
-            }
-            return triangleDetails;
-        }
+#endif
 
         public bool GetTriangleKeyFromVertices(TriangleDetails triangleDetails)
         {
@@ -150,6 +171,23 @@ namespace TriangleHunt
             return foundTriangleKey;
         }
 
+
+        internal string[] AllTriangleKeys()
+        {
+            List<string> keys = new List<string>();
+            string[] rowLetters = { "A", "B", "C", "D", "E", "F" };
+            foreach (var row in rowLetters)
+            {
+                for (int i = 1; i < 13; i++)
+                {
+                    string triangleKey = row;
+                    triangleKey += i.ToString();
+                    keys.Add(triangleKey);
+                }
+            }
+            return keys.ToArray();
+        }
+
         private bool areCoordinatesValid(TriangleDetails triangleDetails)
         {
             // checks if all points are filled in.
@@ -170,9 +208,7 @@ namespace TriangleHunt
                 return false;
             }
 
-
             return true;
-
         }
 
         private bool areAllVerticesMissing(TriangleDetails triangleDetails)
