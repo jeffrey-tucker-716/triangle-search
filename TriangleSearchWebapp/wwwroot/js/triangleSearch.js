@@ -27,7 +27,7 @@ cherwell.challenge["trianglesearch"] =
         var newHtml = '<div class="alert alert-info ajax-alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + message + '</div>'
 
         $('#alert-area').append(newHtml);
-        $('.ajax-alert').last().hide().fadeIn(1000);
+        $('.ajax-alert').last().hide().fadeIn(1000).fadeOut(5000, function () { $(this).remove(); });
     },
 
     onChangeSearchMethod: function () {
@@ -61,6 +61,7 @@ cherwell.challenge["trianglesearch"] =
                 keyByVerticesArea.classList.remove('d-none');
             }
         }
+        this.sensitizeSearchButton();
     },
 
     sensitizeSearchButton: function () {
@@ -71,9 +72,11 @@ cherwell.challenge["trianglesearch"] =
             // try to get the value of the keySelect select control
             let triangleKey = document.getElementById("keySelect").value;
             if (triangleKey === "Choose a triangle key...") {
+                console.log("Still need to choose a triangle key to enable search");
                 $("#searchBtn").prop("disabled", true);
             }
             else {
+                console.log("Search IS enabled now");
                 $("#searchBtn").prop("disabled", false);
             }
         }
@@ -92,12 +95,15 @@ cherwell.challenge["trianglesearch"] =
                 v3x !== undefined && v3x.length > 0 &&
                 v3y !== undefined && v3y.length > 0) {
                 $("#searchBtn").prop("disabled", false);
+                console.log("Search IS enabled now");
             }
             else {
                 $("#searchBtn").prop("disabled", true);
+                console.log("Search is disabled; missing some coordinates");
             }
         }
     },
+
 
     validateForm: function () {
         if (this.searchMode === "ByKey") {
@@ -142,6 +148,7 @@ cherwell.challenge["trianglesearch"] =
         $("#ReadonlyVertex3Y").val(oneTriangleDetails.vertex3.y);
 
     },
+
     displayFoundTriangleKey: function (oneTriangleDetails) {
         console.log(oneTriangleDetails);
         if (oneTriangleDetails.isValid) {
@@ -151,8 +158,6 @@ cherwell.challenge["trianglesearch"] =
         else {
             this.showErrorMessage("The coordinates specified are not valid.");
         }
-
-        
     },
 
     onSearch: function () {
@@ -186,7 +191,7 @@ jQuery(document).ready(function () {
     console.log("Entering document ready for triangle search view");
 
     cherwell.challenge.trianglesearch.showInstructions("Choose the search method - by key or by vertices, then click the 'Search' button. When searching by vertices, the coordinates must be factors of 10 (0-60), and the set of vertices should define a triangle.");
-
+    cherwell.challenge.trianglesearch.sensitizeSearchButton();
 
 
 });
