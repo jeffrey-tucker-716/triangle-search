@@ -79,6 +79,11 @@ TriangleHunt.Tests is the NUnit testing project for the services layer.
 TriangleSearchWebapp.Tests is an integration test project for the web api.
 
 
+## UI
 
+There are a couple of modes for searching:  ByKey or ByVertices.
+The ByKey executes: https://localhost:44392/triangles/A1  given a selected triangle key and shows the vertices
+The ByVertices executes an Url of the form: https://localhost:44392/triangles/search?v1=0,0&v2=10,0&v3=10,10 and either resolves to a triangle key or
+tells you the coordinates are invalid.
 
 
