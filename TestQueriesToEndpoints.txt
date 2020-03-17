@@ -15,3 +15,5 @@ https://localhost:44392/triangles/A0
 
 https://localhost:44392/triangles/f12
 {"triangleKey":"F12","vertex1":{"isEmpty":false,"x":60,"y":50},"vertex2":{"isEmpty":false,"x":50,"y":50},"vertex3":{"isEmpty":false,"x":60,"y":60},"isValid":true}
+
+https://localhost:44392/triangles/A2

@@ -9,8 +9,8 @@
 <br />
 <div class="container">
 
-    <div class="row">
-        <div id="alert-area"></div>
+    <div class="row ">
+        <div  id="alert-area"></div>
     </div>
     <div class="row">
         <div class="col-md-4">
@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-4">
             <div>
-                <button id="findTriangleDetailsButton" class="btn btn-outline-secondary" type="button">Search</button>
+                <button id="searchBtn" class="btn btn-outline-secondary" onclick="cherwell.challenge.trianglesearch.onSearch()" type="button">Search</button>
             </div>
         </div>
     </div>
@@ -49,18 +49,12 @@
         </div>
     </div>
 
-
-
-
     <div id="keyByVerticesArea" class="row d-none">
-        <div class="col-md-4">Vertex 1 (X,Y)</div>
-        <div class="col-md-8">X <input type="text" class="coordinate" id="Vertex1X" />  Y <input type="text"  class="coordinate" id="Vertex1Y" /></div>
-        <div class="col-md-4">Vertex 2 (X,Y)</div>
-        <div class="col-md-8">X <input type="text"  class="coordinate" id="Vertex2X" />  Y <input type="text"  class="coordinate" id="Vertex2Y" /></div>
-        <div class="col-md-4">Vertex 3 (X,Y)</div>
-        <div class="col-md-8">X <input type="text" class="coordinate" id="Vertex3X" />  Y <input readonly type="text" class="coordinate" id="Vertex3Y" /></div>
+        <div class="col-md-12">Vertex 1 (X,Y)&nbsp;&nbsp;X <input type="text" class="coordinate" id="Vertex1X" />  Y <input type="text" class="coordinate" id="Vertex1Y" /></div>
+        <div class="col-md-12">Vertex 2 (X,Y)&nbsp;&nbsp;X <input type="text" class="coordinate" id="Vertex2X" />  Y <input type="text" class="coordinate" id="Vertex2Y" /></div>
+        <div class="col-md-12">Vertex 3 (X,Y)&nbsp;&nbsp;X <input type="text" class="coordinate" id="Vertex3X" />  Y <input type="text" class="coordinate" id="Vertex3Y" /></div>
+        <div class="col-md-12 readonlyInput">Found triangle:&nbsp;&nbsp;<input id="foundKey" type="text" readonly /></div> 
     </div>
-
 
 </div>
 

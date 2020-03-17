@@ -122,11 +122,11 @@ https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch
     }
 
 input:checked + .slider {
-    background-color: #d14d25;
+    background-color: #1bbed4;
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #d14d25;
+    box-shadow: 0 0 1px #1bbed4;
 }
 
 input:checked + .slider:before {
