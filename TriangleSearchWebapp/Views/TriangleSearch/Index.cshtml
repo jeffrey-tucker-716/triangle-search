@@ -16,48 +16,54 @@
         <div class="col-md-4">
             <label for="searchMethodSwitch">By Key</label>&nbsp;
             <label class="switch">
-                <input id="searchMethodSwitch" type="checkbox">
+                <input id="searchMethodSwitch" type="checkbox" onclick="cherwell.challenge.trianglesearch.onChangeSearchMethod()">
                 <span class="slider"></span>
             </label>
             &nbsp;<label for="searchMethodSwitch">By Vertices</label>
         </div>
-    </div>
-    <br />
-    
-    <div id="verticesByKeyArea" class="row">
-        <div class="input-group">
-            <select class="custom-select" id="keySelect" aria-label="Select Key">
-                <option selected>Choose a triangle key...</option>
-                @foreach (var item in Model.TriangleKeys)
-                {
-                    <option value="@item">@item</option>
-                }
-            </select>
-            <div class="input-group-append">
-                <button id="findTriangleDetailsButton" class="btn btn-outline-secondary" type="button">Find Triangle Details</button>
+        <div class="col-md-4">
+            <div>
+                <button id="findTriangleDetailsButton" class="btn btn-outline-secondary" type="button">Search</button>
             </div>
         </div>
-    
-        <div id="VerticesFound" class="d-none">
-            <hr />
-            <div class="col-md-4">Vertex 1</div>
-            <div class="col-md-8">X <input readonly type="text" id="ReadonlyVertex1X" />  Y <input readonly type="text" id="ReadonlyVertex1Y" /></div>
-            <div class="col-md-4">Vertex 2</div>
-            <div class="col-md-8">X <input readonly type="text" id="ReadonlyVertex2X" />  Y <input readonly type="text" id="ReadonlyVertex2Y" /></div>
-            <div class="col-md-4">Vertex 3</div>
-            <div class="col-md-8">X <input readonly type="text" id="ReadonlyVertex3X" />  Y <input readonly type="text" id="ReadonlyVertex3Y" /></div>
-        </div>
-
     </div>
+    <br />
+    <div id="verticesByKeyArea">
+        <div class="row">
+            <div class="input-group">
+                <select class="custom-select" id="keySelect" aria-label="Select Key">
+                    <option selected>Choose a triangle key...</option>
+                    @foreach (var item in Model.TriangleKeys)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+        <br/>
+        <div class="row" id="VerticesFound">
+            <div class="col-md-12 readonlyInput">Vertex 1 (X,Y)&nbsp;&nbsp;X <input class="coordinate" readonly type="text" id="ReadonlyVertex1X" />  Y <input class="coordinate" readonly type="text" id="ReadonlyVertex1Y" /></div>
+            <div class="col-md-12 readonlyInput">Vertex 2 (X,Y)&nbsp;&nbsp;X <input class="coordinate" readonly type="text" id="ReadonlyVertex2X" />  Y <input class="coordinate" readonly type="text" id="ReadonlyVertex2Y" /></div>
+            <div class="col-md-12 readonlyInput">Vertex 3 (X,Y)&nbsp;&nbsp;X <input class="coordinate" readonly type="text" id="ReadonlyVertex3X" />  Y <input class="coordinate" readonly type="text" id="ReadonlyVertex3Y" /></div>
+        </div>
+    </div>
+
+
+
+
     <div id="keyByVerticesArea" class="row d-none">
-        <div class="col-md-4">Vertex 1</div>
-        <div class="col-md-8">X <input type="text" id="Vertex1X" />  Y <input type="text" id="Vertex1Y" /></div>
-        <div class="col-md-4">Vertex 2</div>
-        <div class="col-md-8">X <input type="text" id="Vertex2X" />  Y <input type="text" id="Vertex2Y" /></div>
-        <div class="col-md-4">Vertex 3</div>
-        <div class="col-md-8">X <input type="text" id="Vertex3X" />  Y <input readonly type="text" id="Vertex3Y" /></div>
+        <div class="col-md-4">Vertex 1 (X,Y)</div>
+        <div class="col-md-8">X <input type="text" class="coordinate" id="Vertex1X" />  Y <input type="text"  class="coordinate" id="Vertex1Y" /></div>
+        <div class="col-md-4">Vertex 2 (X,Y)</div>
+        <div class="col-md-8">X <input type="text"  class="coordinate" id="Vertex2X" />  Y <input type="text"  class="coordinate" id="Vertex2Y" /></div>
+        <div class="col-md-4">Vertex 3 (X,Y)</div>
+        <div class="col-md-8">X <input type="text" class="coordinate" id="Vertex3X" />  Y <input readonly type="text" class="coordinate" id="Vertex3Y" /></div>
     </div>
 
 
 </div>
 
+@section scripts {
+    <script src="~/js/triangleSearch.js" asp-append-version="true"></script>
+}
