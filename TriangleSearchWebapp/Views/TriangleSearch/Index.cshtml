@@ -1,0 +1,64 @@
+﻿@model TriangleSearchViewModel
+@{
+    ViewData["Title"] = "Triangle Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+<h1>Triangle Search</h1>
+<br />
+<div class="container">
+
+    <div class="row">
+        <div id="alert-area"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            By Key&nbsp;
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+            &nbsp;By Vertices
+        </div>
+    </div>
+    @*<div class="col-md-8">
+            <input type="checkbox" checked data-toggle="toggle" data-on="by Key" data-off="by Vertices" data-onstyle="success" data-offstyle="danger">
+    </div>*@
+   
+    <br />
+    <div id="verticesByKeyArea" class="row">
+        <div class="input-group">
+            <select class="custom-select" id="keySelect" aria-label="Select Key">
+                <option selected>Choose a triangle key...</option>
+                @foreach (var item in Model.TriangleKeys)
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+            <div class="input-group-append">
+                <button id="findTriangleDetailsButton" class="btn btn-outline-secondary" type="button">Find Triangle Details</button>
+            </div>
+        </div>
+        <div id="VerticesFound" class="d-none">
+            <div class="col-md-4">Vertex 1</div>
+            <div class="col-md-8">X <input readonly type="text" id="ReadonlyVertex1X" />  Y <input readonly type="text" id="ReadonlyVertex1Y" /></div>
+            <div class="col-md-4">Vertex 2</div>
+            <div class="col-md-8">X <input readonly type="text" id="ReadonlyVertex2X" />  Y <input readonly type="text" id="ReadonlyVertex2Y" /></div>
+            <div class="col-md-4">Vertex 3</div>
+            <div class="col-md-8">X <input readonly type="text" id="ReadonlyVertex3X" />  Y <input readonly type="text" id="ReadonlyVertex3Y" /></div>
+        </div>
+
+    </div>
+    <div id="keyByVerticesArea" class="row d-none">
+        <div class="col-md-4">Vertex 1</div>
+        <div class="col-md-8">X <input type="text" id="Vertex1X" />  Y <input type="text" id="Vertex1Y" /></div>
+        <div class="col-md-4">Vertex 2</div>
+        <div class="col-md-8">X <input type="text" id="Vertex2X" />  Y <input type="text" id="Vertex2Y" /></div>
+        <div class="col-md-4">Vertex 3</div>
+        <div class="col-md-8">X <input type="text" id="Vertex3X" />  Y <input readonly type="text" id="Vertex3Y" /></div>
+    </div>
+
+
+</div>
+

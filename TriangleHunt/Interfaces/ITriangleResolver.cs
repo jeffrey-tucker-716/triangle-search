@@ -33,5 +33,12 @@ namespace TriangleHunt.Interfaces
         /// <param name="triangleDetails"></param>
         /// <returns></returns>
         bool GetTriangleKeyFromVertices(TriangleDetails triangleDetails);
+
+        /// <summary>
+        /// Retrieve the list of legal triangle keys useful for constructing the cache and
+        /// presenting which one to search for in a UI
+        /// </summary>
+        /// <returns></returns>
+        string[] AllTriangleKeys();
     }
 }

@@ -172,7 +172,7 @@ namespace TriangleHunt
         }
 
 
-        internal string[] AllTriangleKeys()
+        public string[] AllTriangleKeys()
         {
             List<string> keys = new List<string>();
             string[] rowLetters = { "A", "B", "C", "D", "E", "F" };
