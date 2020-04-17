@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		.gitignore = .gitignore
 		CodingQuestion_2020_New.pdf = CodingQuestion_2020_New.pdf
 		README.md = README.md
+		SOSS_DistCacheWP.pdf = SOSS_DistCacheWP.pdf
 		TestQueriesToEndpoints.txt = TestQueriesToEndpoints.txt
 	EndProjectSection
 EndProject

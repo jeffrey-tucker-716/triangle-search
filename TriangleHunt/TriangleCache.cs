@@ -7,43 +7,50 @@ namespace TriangleHunt
 {
     public sealed class TriangleCache
     {
-        private static readonly TriangleCache instance;
-        private static Dictionary<string, TriangleDetails> AllGridTriangles = new Dictionary<string, TriangleDetails>();
+        private static volatile TriangleCache _instance;
+        private static Dictionary<string, TriangleDetails> _allGridTriangles = new Dictionary<string, TriangleDetails>();
+        private static readonly object _synchLock = new object();
 
         private TriangleCache() {
             var resolver = new TriangleResolver();
             var keys = resolver.AllTriangleKeys();
-            foreach(var key in keys)
+            foreach (var key in keys)
             {
                 var triangleDetails = resolver.ResolveTriangleKey(key);
-                AllGridTriangles.Add(key, triangleDetails);
+                _allGridTriangles.Add(key, triangleDetails);
             }
         }
 
-        static TriangleCache()
-        {
-            instance = new TriangleCache();
-        }
-
-        public static TriangleCache Instance
+        /// <summary>
+        /// From classic singleton pattern thread safe with a lock
+        /// </summary>
+        public static TriangleCache Instance 
         {
             get
             {
-                return instance;
+                if (_instance != null) 
+                    return _instance;
+                lock(_synchLock)
+                {
+                    _instance = new TriangleCache();
+                }
+                return _instance;
             }
         }
+
+        
 
         public TriangleDetails Lookup(string key)
         {
             TriangleDetails found = null;
-            AllGridTriangles.TryGetValue(key, out found);
+            _allGridTriangles.TryGetValue(key, out found);
             return found;
         }
 
         
         public IEnumerable<TriangleDetails> AllTriangleDetails()
         {
-            return AllGridTriangles.Values;
+            return _allGridTriangles.Values;
         }
     }
 }

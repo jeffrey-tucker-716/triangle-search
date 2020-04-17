@@ -7,7 +7,7 @@ cherwell.challenge["trianglesearch"] =
 
     uri: 'triangles',
 
-    searchMode: 'ByKey',
+    searchMode: 'ByKey',    // todo: magic name
 
     showErrorMessage: function (message) {
         var newHtml = '<div class="alert alert-danger ajax-alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Oops! </strong>' + message + '</div>'
